@@ -6,7 +6,7 @@
 ### 1.1.1 操作系统
 wsl linux ubuntu 22.04
 ### 1.1.2 软件环境
-cuda 11.6/cudnn-linux-x86_64-8.6.0.163/onnxruntime-gpu 1.14/python 3.8.20/opencv-python   4.10.0.84/numpy 1.24.4
+cuda 11.6/cudnn-linux-x86_64-8.6.0.163/onnxruntime-gpu 1.14/python 3.8.20/opencv-python   4.10.0.84/numpy 1.24.4 / argparse 1.4.0
 ####  1.1.2.1 cuda 安装
 下载[cuda 11.6](https://developer.nvidia.com/cuda-toolkit-archive)
 ```shell
@@ -72,7 +72,10 @@ pip install opencv-python==4.10.0.84
 ```shell
 pip install numpy==1.24.4
 ```
-
+#### 1.1.2.6 argparse 安装
+```shell
+pip install argparse==1.4.0
+```
 **如果pip下载速度慢可以换[中科大或者清华源](https://blog.csdn.net/qq_45950599/article/details/143948112?spm=1001.2014.3001.5502)**
 
 #### 如果遇到以下错误
