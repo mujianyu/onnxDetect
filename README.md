@@ -76,6 +76,8 @@ pip install numpy==1.24.4
 ```shell
 pip install argparse==1.4.0
 ```
+
+
 **如果pip下载速度慢可以换[中科大或者清华源](https://blog.csdn.net/qq_45950599/article/details/143948112?spm=1001.2014.3001.5502)**
 
 #### 如果遇到以下错误
@@ -116,7 +118,43 @@ GPU 加速比: 5.66 倍
 
 </details>
 
-## 1.2 Jetson Orin Nano
+## 1.2 Jetson Orin NX
+
+### 1.2.1 烧录系统
+安装sdkmanager([下载地址](https://developer.nvidia.com/sdk-manager))
+
+用杜邦线短接GND和FC_REC
+```shell
+sudo apt-get -f -y install
+sudo dpkg -i sdkmanager_2.2.0-12021_amd64.deb   
+sdkmanager
+```
+### 1.2.2 软件环境
+cuda11.4/cudnn8.6.0.166/nvidia-jepack 5.1.1/onnxruntime-gpu  1.15.1/onnx 1.13.0/opencv-python           4.5.5.62/numpy                   1.24.4/
+
+[onnxruntime download url](https://elinux.org/Jetson_Zoo#ONNX_Runtime)
+### 1.2.3 检查是否使用了CUDA和获取当前执行程序的是否使用GPU设备
+```shell
+python testOnnxRunTime.py
+
+Available providers: ['CUDAExecutionProvider', 'CPUExecutionProvider']
+Current device: GPU
+```
+### 1.2.4 测试时间onnx cpu/gpu时间对比
+```shell
+python testTime.py
+
+结果：
+CPU 推理总时间: 104.3488 秒, 每次推理平均时间: 0.1043 秒
+GPU 推理总时间: 31.9575 秒, 每次推理平均时间: 0.0320 秒
+GPU 加速比: 3.27 倍
+
+
+```
+### Error
+ImportError: /home/hsi/archiconda3/envs/nano/bin/../lib/libstdc++.so.6: version `GLIBCXX_3.4.26' not found (required by /home/hsi/archiconda3/envs/nano/lib/python3.8/site-packages/onnxruntime/capi/onnxruntime_pybind11_state.so)
+[libstdc.so.6](https://files.cnblogs.com/files/xiaoko/libstdc.so.6.0.29.zip) save to python/env/lib/libstdc++.so.6
+
 
 ## 2 数据集DroneVehicle数据集(可见光+热红外)
 <details open><summary>数据集DroneVehicle数据集</summary>
@@ -132,7 +170,7 @@ DroneVehicle 数据集由无人机采集的 56,878 张图像组成，其中一�
 
 | 模型(FP16)                                                                                           | 尺寸<br><sup>(像素) | mAP<sup>test<br>50 |mAP<sup>test<br>50-95 | 速度<br><sup>CPU (11th Gen Intel Core(TM) i7-11700 2.50GHZ) ONNX<br>(ms) | 速度<br><sup>Nvidia 4070 GPU ONNX<br>(ms) | 模型大小<br><sup>(MB)  |
 | -------------------------------------------------------------------------------------------- | --------------- | ------------------ | --------------------------- | -------------------------------- | -------------- | ----------------- |
-| [TwoStreamYOLOv8.onnx](https://github.com/mujianyu/onnxDetect/blob/main/best.onnx) |   640 | 81.5          | 61.5                      |  56.4              | 11.2            | 15            |
+| [渐近融合.onnx](https://github.com/mujianyu/onnxDetect/blob/main/best.onnx) |   640 | 81.5          | 61.5                      |  56.4              | 11.2            | 15            |
 </details>
 
 
@@ -145,7 +183,7 @@ python onnxDetect.py --onnx=best.onnx --rgbfile=rgb_06144.jpg  --irfile=ir_06144
 ```
 其中参数含义为：
 * onnx: onnx模型文件  
-* rgbfile：可见光图片 
+* rgbfile: 可见光图片 
 * irfile: 红外光图片 
 
 推理结果为
